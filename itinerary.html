@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 MSC 榮耀號｜沖繩郵輪之旅</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+  :root {
+    --ocean: #1B6CA8;
+    --ocean-light: #E8F4FD;
+    --ocean-dark: #0D4A7A;
+    --coral: #E8856A;
+    --sand: #F7F3EE;
+    --ink: #1A1A2E;
+    --mid: #5A6A7A;
+    --rule: #D4E4F0;
+    --done-bg: #F0F4F0;
+    --done-text: #7A9A7A;
+    --active-bg: #FFF8E8;
+    --active-border: #F0A830;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, var(--ocean-dark) 0%, var(--ocean) 60%, #2E9ED6 100%);
+    color: white;
+    padding: 40px 20px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: 0; right: 0;
+    height: 60px;
+    background: var(--sand);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+  .hero-wave {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    opacity: 0.08;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      white 20px,
+      white 21px
+    );
+  }
+  .hero-content { position: relative; max-width: 500px; margin: 0 auto; }
+  .hero-eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    opacity: 0.75;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span {
+    font-size: 14px;
+    background: rgba(255,255,255,0.15);
+    padding: 4px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── EMERGENCY CARD ── */
+  .emergency {
+    margin: 28px 16px 0;
+    background: white;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--coral);
+    padding: 16px 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .emergency-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--coral);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .emergency-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .emergency-item label {
+    font-size: 11px;
+    color: var(--mid);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .emergency-item span {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .emergency-item span.empty {
+    color: var(--mid);
+    font-weight: 400;
+    font-size: 13px;
+  }
+
+  /* ── DAY NAV TABS ── */
+  .day-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--sand);
+    padding: 12px 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .day-nav-inner {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 0;
+    scrollbar-width: none;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .day-nav-inner::-webkit-scrollbar { display: none; }
+  .day-tab {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    border-radius: 8px 8px 0 0;
+    border: none;
+    background: transparent;
+    color: var(--mid);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+  }
+  .day-tab.active {
+    color: var(--ocean);
+    border-bottom-color: var(--ocean);
+    background: rgba(27,108,168,0.06);
+  }
+  .day-tab:hover:not(.active) {
+    color: var(--ink);
+    background: rgba(0,0,0,0.04);
+  }
+
+  /* ── DAY PANEL ── */
+  .day-panel { display: none; padding: 20px 16px 40px; max-width: 500px; margin: 0 auto; }
+  .day-panel.active { display: block; }
+
+  .day-header {
+    margin-bottom: 20px;
+  }
+  .day-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ocean-dark);
+  }
+  .day-header .day-subtitle {
+    font-size: 14px;
+    color: var(--mid);
+    margin-top: 2px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 8px; bottom: 8px;
+    width: 2px;
+    background: var(--rule);
+  }
+
+  .event {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .event-dot {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--ocean);
+    margin-top: 14px;
+    position: relative;
+    z-index: 1;
+    left: 13px;
+  }
+  .event.done .event-dot {
+    background: var(--done-text);
+    border-color: var(--done-text);
+  }
+  .event.active .event-dot {
+    background: var(--active-border);
+    border-color: var(--active-border);
+    box-shadow: 0 0 0 4px rgba(240,168,48,0.2);
+  }
+
+  .event-card {
+    flex: 1;
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    margin-left: 14px;
+  }
+  .event.done .event-card {
+    background: var(--done-bg);
+    box-shadow: none;
+  }
+  .event.active .event-card {
+    background: var(--active-bg);
+    border: 1.5px solid var(--active-border);
+  }
+  .event-time {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ocean);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .event.done .event-time { color: var(--done-text); }
+  .event.active .event-time { color: #B87A10; }
+
+  .event-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .event.done .event-title {
+    color: var(--mid);
+    text-decoration: line-through;
+  }
+
+  .event-note {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.5;
+    margin-top: 6px;
+    white-space: pre-line;
+  }
+
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .tag-transport { background: #E8F0FA; color: #3366AA; }
+  .tag-food      { background: #FDE8D8; color: #B84A20; }
+  .tag-activity  { background: #E8F8E8; color: #2A7A2A; }
+  .tag-ship      { background: #E8F4FD; color: #1B6CA8; }
+  .tag-todo      { background: #FFF0D8; color: #8A5A00; }
+  .tag-updated   { background: #FDEAEA; color: #AA2222; }
+
+  .maps-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--ocean);
+    text-decoration: none;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .maps-link:hover { text-decoration: underline; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+    text-transform: uppercase;
+    margin: 24px 0 10px;
+    padding-left: 4px;
+  }
+
+  /* ── NOTES BLOCK ── */
+  .notes-block {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 8px;
+    font-size: 15px;
+    color: var(--mid);
+    line-height: 1.7;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  }
+  .notes-block ul { padding-left: 20px; }
+  .notes-block li { margin-bottom: 4px; }
+
+  /* ── TODO BLOCK ── */
+  .todo-block {
+    background: #FFFBF0;
+    border: 1px dashed var(--active-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6A4A00;
+  }
+  .todo-block .todo-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8A5A00;
+  }
+  .todo-block ul { padding-left: 18px; }
+  .todo-block li { margin-bottom: 4px; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 12px;
+    color: var(--mid);
+    border-top: 1px solid var(--rule);
+    margin-top: 20px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-wave"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">🚢 Family Trip</div>
+    <h1>2026 MSC 榮耀號<br>沖繩郵輪之旅</h1>
+    <div class="hero-meta">
+      <span>📅 6/30 – 7/4</span>
+      <span>👨‍👩‍👦‍👦 四人同行</span>
+      <span>⚓ 5 天 4 夜</span>
+    </div>
+  </div>
+</div>
+
+<!-- EMERGENCY CONTACTS -->
+<div class="emergency">
+  <div class="emergency-title">🆘 緊急聯絡資訊</div>
+  <div class="emergency-grid">
+    <div class="emergency-item">
+      <label>旅行社聯絡人</label>
+      <span class="empty">（待補充）</span>
+    </div>
+    <div class="emergency-item">
+      <label>旅行社電話</label>
+      <span class="empty">（待補充）</span>
+    </div>
+    <div class="emergency-item">
+      <label>郵輪客服</label>
+      <span class="empty">（待補充）</span>
+    </div>
+    <div class="emergency-item">
+      <label>當地急難救助</label>
+      <span class="empty">（待補充）</span>
+    </div>
+  </div>
+</div>
+
+<!-- DAY NAVIGATION -->
+<nav class="day-nav">
+  <div class="day-nav-inner">
+    <button class="day-tab active" onclick="switchDay(0)">6/30<br><small>出發</small></button>
+    <button class="day-tab" onclick="switchDay(1)">7/01<br><small>沖繩</small></button>
+    <button class="day-tab" onclick="switchDay(2)">7/02<br><small>航行</small></button>
+    <button class="day-tab" onclick="switchDay(3)">7/03<br><small>石垣島</small></button>
+    <button class="day-tab" onclick="switchDay(4)">7/04<br><small>返家</small></button>
+  </div>
+</nav>
+
+<!-- ══════════════ DAY 0: 6/30 ══════════════ -->
+<div class="day-panel active" id="day-0">
+  <div class="day-header">
+    <h2>Day 1 ｜ 6/30（二）</h2>
+    <div class="day-subtitle">學校結業式 → 上船報到 → 離港</div>
+  </div>
+
+  <div class="section-label">上午</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">上午</div>
+        <div class="event-title">🎓 學校結業式</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">下午</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">12:00 – 12:20</div>
+        <div class="event-title">🏫 新莊國中集合</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">13:30 起</div>
+        <div class="event-title">🚢 上船報到</div>
+        <div class="event-note">依照郵輪公告時間辦理登船手續</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">15:00</div>
+        <div class="event-title">⚓ 船上安全檢查 & 介紹</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">17:30</div>
+        <div class="event-title">🌊 離港！</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">晚上</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">晚上</div>
+        <div class="event-title">🎭 郵輪設施 & 表演活動</div>
+        <div class="event-note">倫敦大劇場：每晚都有表演</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">注意事項</div>
+  <div class="notes-block">
+    <ul>
+      <li>自費項目：小費 USD 72/人（船上支付）、觀光客稅 ¥1,000/人</li>
+      <li>船上主題餐廳的時間、座位由郵輪安排</li>
+      <li>船上表演活動、設施還沒研究，盡可能塞在航行時間</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════ DAY 1: 7/01 ══════════════ -->
+<div class="day-panel" id="day-1">
+  <div class="day-header">
+    <h2>Day 2 ｜ 7/01（三）</h2>
+    <div class="day-subtitle">沖繩靠港 → 美國村自由行</div>
+  </div>
+
+  <div class="section-label">上午｜旅行社安排</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">08:30 – 08:50</div>
+        <div class="event-title">集合</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">08:50 – 09:40</div>
+        <div class="event-title">🎵 彩排</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">09:40 – 10:00</div>
+        <div class="event-title">觀眾入場</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">10:00 – 11:30</div>
+        <div class="event-title">🎪 演出</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">下午｜自由行程（美國村）</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">13:30 – 15:00</div>
+        <div class="event-title">🚢 郵輪靠港 & 通關</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/eFTsFEWz9QvqTMqQ9" target="_blank">📍 那霸港地圖</a>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">15:00 – 15:40</div>
+        <div class="event-title">🚕 港口 → 美國村</div>
+        <div class="event-note">叫 GO Taxi；回程可至 Vessel Hotel 請櫃台協助叫 VAN</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/nQng8pdtGexcn6Sv5" target="_blank">📍 美國村地圖</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/bQCXuqGxh5FWkcXz8" target="_blank">📍 Vessel Hotel（回程叫車點）</a>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">15:40 – 16:30</div>
+        <div class="event-title">🧇 Hanon 鬆餅</div>
+        <div class="event-note">休息 + 冷氣</div>
+        <div class="event-tags"><span class="tag tag-food">餐飲</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/fAcavNBGdyxERzUz8" target="_blank">📍 Hanon 地圖</a>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">16:30 – 17:10</div>
+        <div class="event-title">🍦 Blue Seal 吃冰 & 海邊散步</div>
+        <div class="event-tags"><span class="tag tag-food">餐飲</span><span class="tag tag-activity">活動</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/p8U2wBtPnrgmwX12A" target="_blank">📍 Blue Seal Depot Island Seaside</a>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">17:10 – 18:30</div>
+        <div class="event-title">🛍️ (戶外) Depot Island / (室內) AEON 北谷店</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/m9Ssaf9cWkNekNKy8" target="_blank">📍 戶外：Depot Island</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/6xnYtF8uz66A679QA" target="_blank">📍 室內：AEON 北谷店</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">晚餐</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">晚餐</div>
+        <div class="event-title">🥩 Yakiniku RIKIO</div>
+        <div class="event-note">阿古豬 ＋ 石垣牛 燒肉（Japanese BBQ）｜📞 098-989-4433</div>
+        <div class="event-tags"><span class="tag tag-food">餐飲</span><span class="tag tag-todo">⚠️ 需預約</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/J6q83TGYmNXYAKND7" target="_blank">📍 Yakiniku RIKIO 地圖</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">晚上</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">餐後</div>
+        <div class="event-title">🏨 Vessel Hotel → 港口</div>
+        <div class="event-note">至 Vessel Hotel 請櫃台協助叫 VAN 回郵輪</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/bQCXuqGxh5FWkcXz8" target="_blank">📍 Vessel Hotel 地圖</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/eFTsFEWz9QvqTMqQ9" target="_blank">📍 那霸港地圖</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ DAY 2: 7/02 ══════════════ -->
+<div class="day-panel" id="day-2">
+  <div class="day-header">
+    <h2>Day 3 ｜ 7/02（四）</h2>
+    <div class="day-subtitle">航行中 → 前往石垣島</div>
+  </div>
+
+  <div class="section-label">上午</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">全天</div>
+        <div class="event-title">🌊 航行中</div>
+        <div class="event-note">旅行社安排行程，詳細待確認</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">晚上</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">17:00</div>
+        <div class="event-title">⚓ 啟航，前往石垣島</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">注意事項</div>
+  <div class="notes-block">
+    <ul>
+      <li>郵輪設施、表演盡可能安排在今天</li>
+      <li>郵輪在沖繩、石垣島的接駁車時間 & 地點待確認</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════ DAY 3: 7/03 ══════════════ -->
+<div class="day-panel" id="day-3">
+  <div class="day-header">
+    <h2>Day 4 ｜ 7/03（五）</h2>
+    <div class="day-subtitle">石垣島自由行</div>
+  </div>
+
+  <div class="section-label">上午</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">11:00</div>
+        <div class="event-title">⚓ 抵達石垣島</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">下午</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">13:00 – 13:30</div>
+        <div class="event-title">🚢 下船 & 抵達租車店</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span><span class="tag tag-todo">⚠️ 需預約</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">14:00 – 14:40</div>
+        <div class="event-title">🚗 開車前往川平灣</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+        <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJq3PQEe7dXzQR8VwfG5-d-Jo" target="_blank">📍 川平灣地圖</a>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">15:05 – 15:45</div>
+        <div class="event-title">🪸 BLUE CORAL 玻璃船</div>
+        <div class="event-note">官網預約 ¥1,400｜班次：14:30 / 15:05 / 15:40｜📞 0980-88-2639</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span><span class="tag tag-todo">⚠️ 需預約</span></div>
+        <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJyZ1X8I3dXzQRBD55RAum-3s" target="_blank">📍 BLUE CORAL 地圖</a>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">15:45 – 16:20</div>
+        <div class="event-title">🅿️ 停車場休息</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">16:30 – 18:15</div>
+        <div class="event-title">🍲 黃金だし しゃぶき（阿古豬涮涮鍋）</div>
+        <div class="event-note">點餐完後跑步去買：牛奶＋吐司、雪鹽｜📞 0980-87-6002</div>
+        <div class="event-tags"><span class="tag tag-food">餐飲</span><span class="tag tag-todo">⚠️ 需預約</span></div>
+        <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJozIofgALYDQRPdNEElaEWYs" target="_blank">📍 涮涮鍋餐廳地圖</a>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">18:25 – 18:50</div>
+        <div class="event-title">🚗 還車</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">18:50 – 19:00</div>
+        <div class="event-title">🚢 回到船上</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">晚上</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">19:00 – 20:00</div>
+        <div class="event-title">📋 離船說明會</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">備用方案</div>
+  <div class="notes-block">
+    <ul>
+      <li>☔ <strong>雨天方案</strong>：取消川平灣，改為郵輪設施＋市區，或參加跟團行程</li>
+      <li>🛍️ <a href="https://www.google.com/maps/place/?q=place_id:ChIJAQBQFZgKYDQRxgU2j5E3X8A" target="_blank" style="color:var(--ocean)">德村菓子店（Royce 石垣）</a>？（待確認是否排入）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════ DAY 4: 7/04 ══════════════ -->
+<div class="day-panel" id="day-4">
+  <div class="day-header">
+    <h2>Day 5 ｜ 7/04（六）</h2>
+    <div class="day-subtitle">回港 → 返家</div>
+  </div>
+
+  <div class="section-label">早上</div>
+  <div class="timeline">
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">06:00</div>
+        <div class="event-title">⚓ 抵達基隆港</div>
+        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">08:00 – 08:20</div>
+        <div class="event-title">🚌 遊覽車集合</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">08:20 – 09:20</div>
+        <div class="event-title">🏫 回新莊國中</div>
+        <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">待辦清單</div>
+  <div class="todo-block">
+    <div class="todo-title">⚠️ 出發前需確認</div>
+    <ul>
+      <li>郵輪在沖繩、石垣島的接駁車時間 & 地點</li>
+      <li>石垣島：有哪些跟團行程、當天最晚上船時間</li>
+      <li>Yakiniku RIKIO 晚餐預約（7/01）</li>
+      <li>石垣島租車 & 餐廳預約（7/03）</li>
+      <li>BLUE CORAL 玻璃船預約</li>
+      <li>郵輪緊急聯絡資訊補充</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  最後更新：2026/06/09 ｜ 有任何問題請聯絡 Lucas
+</footer>
+
+<script>
+  function switchDay(index) {
+    document.querySelectorAll('.day-tab').forEach((t, i) => {
+      t.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.day-panel').forEach((p, i) => {
+      p.classList.toggle('active', i === index);
+    });
+    window.scrollTo({ top: document.querySelector('.day-nav').offsetTop - 8, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
