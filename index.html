@@ -90,42 +90,6 @@
   }
 
   /* ── EMERGENCY CARD ── */
-  .emergency {
-    margin: 28px 16px 0;
-    background: white;
-    border-radius: var(--radius);
-    border-left: 4px solid var(--coral);
-    padding: 16px 18px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-  .emergency-title {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--coral);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .emergency-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .emergency-item label {
-    font-size: 11px;
-    color: var(--mid);
-    display: block;
-    margin-bottom: 2px;
-  }
-  .emergency-item span {
-    font-size: 15px;
-    font-weight: 500;
-  }
-  .emergency-item span.empty {
-    color: var(--mid);
-    font-weight: 400;
-    font-size: 13px;
-  }
 
   /* ── DAY NAV TABS ── */
   .day-nav {
@@ -304,6 +268,188 @@
   }
   .maps-link:hover { text-decoration: underline; }
 
+  /* ── EMERGENCY BUTTON ── */
+  .emergency-btn {
+    margin-top: 16px;
+    background: rgba(255,255,255,0.18);
+    color: white;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.15s;
+  }
+  .emergency-btn:hover { background: rgba(255,255,255,0.28); }
+
+  /* ── EMERGENCY MODAL ── */
+  .emergency-modal {
+    border: none;
+    border-radius: 16px;
+    padding: 0;
+    max-width: 340px;
+    width: calc(100% - 40px);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+  .emergency-modal::backdrop {
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(2px);
+  }
+  .emergency-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--coral);
+    border-bottom: 1px solid var(--rule);
+  }
+  .emergency-modal-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--mid);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  .emergency-modal-close:hover { background: #f0f0f0; }
+  .emergency-grid {
+    padding: 16px 18px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .emergency-item label {
+    font-size: 11px;
+    color: var(--mid);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .emergency-item span {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .emergency-item span.empty {
+    color: var(--mid);
+    font-weight: 400;
+    font-size: 13px;
+  }
+
+  /* ── INFO BUTTON ── */
+  .info-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 7px 14px;
+    background: var(--ocean-light);
+    color: var(--ocean);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .info-btn:hover { background: #d4ecf9; }
+
+  /* ── BUS MODAL ── */
+  .bus-modal {
+    border: none;
+    border-radius: 16px;
+    padding: 0;
+    max-width: 420px;
+    width: calc(100% - 32px);
+    max-height: 80vh;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+  .bus-modal::backdrop {
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(2px);
+  }
+  .bus-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ocean-dark);
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: white;
+    border-radius: 16px 16px 0 0;
+    z-index: 1;
+  }
+  .bus-modal-body {
+    padding: 16px 18px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .bus-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ocean);
+    background: var(--ocean-light);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .bus-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .bus-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    border-bottom: 2px solid var(--rule);
+  }
+  .bus-table td {
+    padding: 7px 8px;
+    border-bottom: 1px solid #f0f0f0;
+    color: var(--ink);
+  }
+  .bus-table tr:last-child td { border-bottom: none; }
+  .bus-table td:last-child { text-align: right; color: var(--mid); }
+
+  /* ── COLLAPSIBLE DETAILS ── */
+  .day-details { margin-top: 8px; }
+  .day-details-summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ocean);
+    padding: 10px 14px;
+    background: var(--ocean-light);
+    border-radius: 8px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .day-details-summary::-webkit-details-marker { display: none; }
+  .day-details[open] .day-details-summary { border-radius: 8px 8px 0 0; }
+  .day-details[open] .day-details-summary::after { content: ' ▴'; }
+  .day-details:not([open]) .day-details-summary::after { content: ' ▾'; }
+  .day-details-summary:hover { background: #d4ecf9; }
+
   /* ── SECTION LABEL ── */
   .section-label {
     font-size: 11px;
@@ -378,12 +524,16 @@
       <span>👨‍👩‍👦‍👦 四人同行</span>
       <span>⚓ 5 天 4 夜</span>
     </div>
+    <button class="emergency-btn" onclick="document.getElementById('emergency-modal').showModal()">🆘 緊急聯絡資訊</button>
   </div>
 </div>
 
-<!-- EMERGENCY CONTACTS -->
-<div class="emergency">
-  <div class="emergency-title">🆘 緊急聯絡資訊</div>
+<!-- EMERGENCY MODAL -->
+<dialog id="emergency-modal" class="emergency-modal">
+  <div class="emergency-modal-header">
+    <span>🆘 緊急聯絡資訊</span>
+    <button class="emergency-modal-close" onclick="document.getElementById('emergency-modal').close()">✕</button>
+  </div>
   <div class="emergency-grid">
     <div class="emergency-item">
       <label>旅行社聯絡人</label>
@@ -402,7 +552,161 @@
       <span class="empty">（待補充）</span>
     </div>
   </div>
-</div>
+</dialog>
+
+<!-- MODAL：基隆港接駁車 -->
+<dialog id="modal-keelung" class="bus-modal">
+  <div class="bus-modal-header">
+    <span>🚌 基隆港接駁車次分配</span>
+    <button class="emergency-modal-close" onclick="document.getElementById('modal-keelung').close()">✕</button>
+  </div>
+  <div class="bus-modal-body">
+    <div class="bus-group">
+      <div class="bus-label">A 車（30 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>詹佳錡</td><td>師長</td><td>1</td></tr>
+          <tr><td>王品云</td><td>豎笛</td><td>1</td></tr>
+          <tr><td>游佳靜</td><td>低音管</td><td>3</td></tr>
+          <tr><td>莊翔宇</td><td>小號</td><td>4</td></tr>
+          <tr><td>陳靖涵</td><td>小號</td><td>4</td></tr>
+          <tr><td>陳霈姍</td><td>小號</td><td>2</td></tr>
+          <tr><td>陳宏洋</td><td>長號</td><td>2</td></tr>
+          <tr><td>邱禹理</td><td>長號</td><td>1</td></tr>
+          <tr><td>曹銘佑</td><td>長號</td><td>9</td></tr>
+          <tr><td>葉哲睿</td><td>法國號</td><td>1</td></tr>
+          <tr><td>陳實</td><td>打擊</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bus-group">
+      <div class="bus-label">B 車（31 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>吳淑美</td><td>師長</td><td>1</td></tr>
+          <tr><td>李雯硯</td><td>長笛</td><td>4</td></tr>
+          <tr><td>連思柔</td><td>長笛</td><td>5</td></tr>
+          <tr><td>張丞炘</td><td>長笛</td><td>3</td></tr>
+          <tr><td>蔡宜真</td><td>長笛</td><td>4</td></tr>
+          <tr><td>李若菲</td><td>豎笛</td><td>2</td></tr>
+          <tr><td>陳羿彣</td><td>豎笛</td><td>4</td></tr>
+          <tr><td>陳立妍</td><td>豎笛</td><td>3</td></tr>
+          <tr><td>楊喬歆</td><td>薩克</td><td>5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bus-group">
+      <div class="bus-label">C 車（28 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>吳崇榮</td><td>師長</td><td>1</td></tr>
+          <tr><td>王瑀恩</td><td>豎笛</td><td>4</td></tr>
+          <tr><td>徐翊桓</td><td>長號</td><td>7</td></tr>
+          <tr><td>劉子瑢</td><td>法國號</td><td>8</td></tr>
+          <tr><td>吳齡嬿</td><td>法國號</td><td>2</td></tr>
+          <tr><td>施沛旻</td><td>上低音號</td><td>2</td></tr>
+          <tr><td>鄭品妍</td><td>上低音號</td><td>3</td></tr>
+          <tr><td>何益昇</td><td>低音號</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bus-group">
+      <div class="bus-label">D 車（30 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>胡舒惠</td><td>師長</td><td>1</td></tr>
+          <tr><td>葉汪天雲</td><td>薩克</td><td>2</td></tr>
+          <tr><td>吳侑潔</td><td>法國號</td><td>4</td></tr>
+          <tr><td>吳昀芮</td><td>低音號</td><td>3</td></tr>
+          <tr><td>李睿困</td><td>打擊</td><td>4</td></tr>
+          <tr><td>沈品希</td><td>打擊</td><td>4</td></tr>
+          <tr><td>盧柏叡</td><td>打擊</td><td>4</td></tr>
+          <tr><td>張皓荃</td><td>打擊</td><td>8</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</dialog>
+
+<!-- MODAL：沖繩一日遊接駁車 -->
+<dialog id="modal-okinawa" class="bus-modal">
+  <div class="bus-modal-header">
+    <span>🚌 沖繩一日遊接駁車次分配</span>
+    <button class="emergency-modal-close" onclick="document.getElementById('modal-okinawa').close()">✕</button>
+  </div>
+  <div class="bus-modal-body">
+    <div class="bus-group">
+      <div class="bus-label">A 車（34 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>詹佳錡</td><td>師長</td><td>1</td></tr>
+          <tr><td>游佳靜</td><td>低音管</td><td>3</td></tr>
+          <tr><td>莊翔宇</td><td>小號</td><td>4</td></tr>
+          <tr><td>陳靖涵</td><td>小號</td><td>4</td></tr>
+          <tr><td>陳霈姍</td><td>小號</td><td>2</td></tr>
+          <tr><td>陳宏洋</td><td>長號</td><td>2</td></tr>
+          <tr><td>邱禹理</td><td>長號</td><td>6</td></tr>
+          <tr><td>曹銘佑</td><td>長號</td><td>9</td></tr>
+          <tr><td>葉哲睿</td><td>法國號</td><td>1</td></tr>
+          <tr><td>陳實</td><td>打擊</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bus-group">
+      <div class="bus-label">B 車（34 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>吳淑美</td><td>師長</td><td>1</td></tr>
+          <tr><td>李雯硯</td><td>長笛</td><td>4</td></tr>
+          <tr><td>連思柔</td><td>長笛</td><td>5</td></tr>
+          <tr><td>張丞炘</td><td>長笛</td><td>3</td></tr>
+          <tr><td>蔡宜真</td><td>長笛</td><td>4</td></tr>
+          <tr><td>李若菲</td><td>豎笛</td><td>2</td></tr>
+          <tr><td>陳羿彣</td><td>豎笛</td><td>4</td></tr>
+          <tr><td>陳立妍</td><td>豎笛</td><td>3</td></tr>
+          <tr><td>楊喬歆</td><td>薩克</td><td>6</td></tr>
+          <tr><td>張語宸</td><td>法國號</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bus-group">
+      <div class="bus-label">C 車（36 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>吳崇榮</td><td>師長</td><td>1</td></tr>
+          <tr><td>王瑀恩</td><td>豎笛</td><td>4</td></tr>
+          <tr><td>王品云</td><td>豎笛</td><td>1</td></tr>
+          <tr><td>徐翊桓</td><td>長號</td><td>7</td></tr>
+          <tr><td>劉子瑢</td><td>法國號</td><td>12</td></tr>
+          <tr><td>吳齡嬿</td><td>法國號</td><td>3</td></tr>
+          <tr><td>鄭品妍</td><td>上低音號</td><td>3</td></tr>
+          <tr><td>何益昇</td><td>低音號</td><td>1</td></tr>
+          <tr><td>盧柏叡</td><td>打擊</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bus-group">
+      <div class="bus-label">D 車（35 人）</div>
+      <table class="bus-table">
+        <thead><tr><th>姓名</th><th>樂器</th><th>人數</th></tr></thead>
+        <tbody>
+          <tr><td>胡舒惠</td><td>師長</td><td>1</td></tr>
+          <tr><td>吳侑潔</td><td>法國號</td><td>4</td></tr>
+          <tr><td>吳昀芮</td><td>低音號</td><td>22</td></tr>
+          <tr><td>李睿困</td><td>打擊</td><td>4</td></tr>
+          <tr><td>沈品希</td><td>打擊</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</dialog>
 
 <!-- DAY NAVIGATION -->
 <nav class="day-nav">
@@ -422,18 +726,22 @@
     <div class="day-subtitle">學校結業式 → 上船報到 → 離港</div>
   </div>
 
-  <div class="section-label">上午</div>
-  <div class="timeline">
-    <div class="event upcoming">
-      <div class="event-dot"></div>
-      <div class="event-card">
-        <div class="event-time">上午</div>
-        <div class="event-title">🎓 學校結業式</div>
-        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+  <!-- 上午：折疊，預設收起 -->
+  <details class="day-details">
+    <summary class="day-details-summary">上午｜學校結業式</summary>
+    <div class="timeline">
+      <div class="event upcoming">
+        <div class="event-dot"></div>
+        <div class="event-card">
+          <div class="event-time">上午</div>
+          <div class="event-title">🎓 學校結業式</div>
+          <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+        </div>
       </div>
     </div>
-  </div>
+  </details>
 
+  <!-- 下午以後：固定顯示 -->
   <div class="section-label">下午</div>
   <div class="timeline">
     <div class="event upcoming">
@@ -442,6 +750,7 @@
         <div class="event-time">12:00 – 12:20</div>
         <div class="event-title">🏫 新莊國中集合</div>
         <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+        <button class="info-btn" onclick="document.getElementById('modal-keelung').showModal()">🚌 查看車次分配</button>
       </div>
     </div>
     <div class="event upcoming">
@@ -484,14 +793,14 @@
     </div>
   </div>
 
-  <div class="section-label">注意事項</div>
-  <div class="notes-block">
-    <ul>
-      <li>自費項目：小費 USD 72/人（船上支付）、觀光客稅 ¥1,000/人</li>
-      <li>船上主題餐廳的時間、座位由郵輪安排</li>
-      <li>船上表演活動、設施還沒研究，盡可能塞在航行時間</li>
-    </ul>
-  </div>
+    <div class="section-label">注意事項</div>
+    <div class="notes-block">
+      <ul>
+        <li>自費項目：小費 USD 72/人（船上支付）、觀光客稅 ¥1,000/人</li>
+        <li>船上主題餐廳的時間、座位由郵輪安排</li>
+        <li>船上表演活動、設施還沒研究，盡可能塞在航行時間</li>
+      </ul>
+    </div>
 </div>
 
 <!-- ══════════════ DAY 1: 7/01 ══════════════ -->
@@ -556,7 +865,7 @@
         <div class="event-note">叫 GO Taxi；回程可至 Vessel Hotel 請櫃台協助叫 VAN</div>
         <div class="event-tags"><span class="tag tag-transport">交通</span></div>
         <a class="maps-link" href="https://maps.app.goo.gl/nQng8pdtGexcn6Sv5" target="_blank">📍 美國村地圖</a>
-        <a class="maps-link" href="https://maps.app.goo.gl/bQCXuqGxh5FWkcXz8" target="_blank">📍 Vessel Hotel（回程叫車點）</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/jYLJWzTTgaTJqWcP9" target="_blank">📍 Vessel Hotel（回程叫車點）</a>
       </div>
     </div>
     <div class="event upcoming">
@@ -599,7 +908,7 @@
         <div class="event-title">🥩 Yakiniku RIKIO</div>
         <div class="event-note">阿古豬 ＋ 石垣牛 燒肉（Japanese BBQ）｜📞 098-989-4433</div>
         <div class="event-tags"><span class="tag tag-food">餐飲</span><span class="tag tag-todo">⚠️ 需預約</span></div>
-        <a class="maps-link" href="https://maps.app.goo.gl/J6q83TGYmNXYAKND7" target="_blank">📍 Yakiniku RIKIO 地圖</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/PT1bzmCoh5VcSQAT7" target="_blank">📍 Yakiniku RIKIO 地圖</a>
       </div>
     </div>
   </div>
@@ -613,7 +922,7 @@
         <div class="event-title">🏨 Vessel Hotel → 港口</div>
         <div class="event-note">至 Vessel Hotel 請櫃台協助叫 VAN 回郵輪</div>
         <div class="event-tags"><span class="tag tag-transport">交通</span></div>
-        <a class="maps-link" href="https://maps.app.goo.gl/bQCXuqGxh5FWkcXz8" target="_blank">📍 Vessel Hotel 地圖</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/jYLJWzTTgaTJqWcP9" target="_blank">📍 Vessel Hotel 地圖</a>
         <a class="maps-link" href="https://maps.app.goo.gl/eFTsFEWz9QvqTMqQ9" target="_blank">📍 那霸港地圖</a>
       </div>
     </div>
@@ -624,18 +933,43 @@
 <div class="day-panel" id="day-2">
   <div class="day-header">
     <h2>Day 3 ｜ 7/02（四）</h2>
-    <div class="day-subtitle">航行中 → 前往石垣島</div>
+    <div class="day-subtitle">沖繩一日遊 → 啟航石垣島</div>
   </div>
 
-  <div class="section-label">上午</div>
+  <div class="section-label">上午｜旅行社安排</div>
   <div class="timeline">
     <div class="event upcoming">
       <div class="event-dot"></div>
       <div class="event-card">
-        <div class="event-time">全天</div>
-        <div class="event-title">🌊 航行中</div>
-        <div class="event-note">旅行社安排行程，詳細待確認</div>
-        <div class="event-tags"><span class="tag tag-ship">郵輪</span></div>
+        <div class="event-time">08:00 – 15:00</div>
+        <div class="event-title">🗺️ 沖繩一日遊（旅行社安排）</div>
+        <div class="event-note">07:50 集合出發</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+        <button class="info-btn" onclick="document.getElementById('modal-okinawa').showModal()">🚌 查看車次分配</button>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">上午</div>
+        <div class="event-title">🏝️ 瀨長島</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">上午</div>
+        <div class="event-title">🏯 首里城</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+      </div>
+    </div>
+    <div class="event upcoming">
+      <div class="event-dot"></div>
+      <div class="event-card">
+        <div class="event-time">11:30</div>
+        <div class="event-title">🛍️ 抵達 PARCO City 自由行</div>
+        <div class="event-tags"><span class="tag tag-activity">活動</span></div>
       </div>
     </div>
   </div>
@@ -688,6 +1022,7 @@
         <div class="event-time">13:00 – 13:30</div>
         <div class="event-title">🚢 下船 & 抵達租車店</div>
         <div class="event-tags"><span class="tag tag-transport">交通</span><span class="tag tag-todo">⚠️ 需預約</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/HrZK4fSGD27P73aS6" target="_blank">📍 租車店地圖</a>
       </div>
     </div>
     <div class="event upcoming">
@@ -696,7 +1031,7 @@
         <div class="event-time">14:00 – 14:40</div>
         <div class="event-title">🚗 開車前往川平灣</div>
         <div class="event-tags"><span class="tag tag-transport">交通</span></div>
-        <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJq3PQEe7dXzQR8VwfG5-d-Jo" target="_blank">📍 川平灣地圖</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/HrZK4fSGD27P73aS6" target="_blank">📍 川平灣地圖</a>
       </div>
     </div>
     <div class="event upcoming">
@@ -704,9 +1039,9 @@
       <div class="event-card">
         <div class="event-time">15:05 – 15:45</div>
         <div class="event-title">🪸 BLUE CORAL 玻璃船</div>
-        <div class="event-note">官網預約 ¥1,400｜班次：14:30 / 15:05 / 15:40｜📞 0980-88-2639</div>
+        <div class="event-note">班次：14:30 / 15:05 / 15:40｜📞 0980-88-2639</div>
         <div class="event-tags"><span class="tag tag-activity">活動</span><span class="tag tag-todo">⚠️ 需預約</span></div>
-        <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJyZ1X8I3dXzQRBD55RAum-3s" target="_blank">📍 BLUE CORAL 地圖</a>
+        <a class="maps-link" href="https://jcation.com/omusubi/bluecoral-ishigaki/" target="_blank">🔗 官網預約 ¥1,400</a>
       </div>
     </div>
     <div class="event upcoming">
@@ -715,6 +1050,7 @@
         <div class="event-time">15:45 – 16:20</div>
         <div class="event-title">🅿️ 停車場休息</div>
         <div class="event-tags"><span class="tag tag-activity">活動</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/baB2U6m2fBXcS2M37" target="_blank">📍 停車場地圖</a>
       </div>
     </div>
     <div class="event upcoming">
@@ -724,7 +1060,8 @@
         <div class="event-title">🍲 黃金だし しゃぶき（阿古豬涮涮鍋）</div>
         <div class="event-note">點餐完後跑步去買：牛奶＋吐司、雪鹽｜📞 0980-87-6002</div>
         <div class="event-tags"><span class="tag tag-food">餐飲</span><span class="tag tag-todo">⚠️ 需預約</span></div>
-        <a class="maps-link" href="https://www.google.com/maps/place/?q=place_id:ChIJozIofgALYDQRPdNEElaEWYs" target="_blank">📍 涮涮鍋餐廳地圖</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/cntT5G1BUQGr2VJd9" target="_blank">📍 涮涮鍋餐廳地圖</a>
+        <a class="maps-link" href="https://maps.app.goo.gl/H2vhHrKuzzuBtZwF6" target="_blank">🛒 買牛奶＋吐司、雪鹽</a>
       </div>
     </div>
     <div class="event upcoming">
@@ -733,6 +1070,7 @@
         <div class="event-time">18:25 – 18:50</div>
         <div class="event-title">🚗 還車</div>
         <div class="event-tags"><span class="tag tag-transport">交通</span></div>
+        <a class="maps-link" href="https://maps.app.goo.gl/12mmh9rihV18VjPX9" target="_blank">📍 還車地點地圖</a>
       </div>
     </div>
     <div class="event upcoming">
@@ -761,7 +1099,7 @@
   <div class="notes-block">
     <ul>
       <li>☔ <strong>雨天方案</strong>：取消川平灣，改為郵輪設施＋市區，或參加跟團行程</li>
-      <li>🛍️ <a href="https://www.google.com/maps/place/?q=place_id:ChIJAQBQFZgKYDQRxgU2j5E3X8A" target="_blank" style="color:var(--ocean)">德村菓子店（Royce 石垣）</a>？（待確認是否排入）</li>
+      <li>🛍️ <a href="https://maps.app.goo.gl/fJegjpuHvDSyPjwJ7" target="_blank" style="color:var(--ocean)">德村菓子店（Royce 石垣）</a>？（待確認是否排入）</li>
     </ul>
   </div>
 </div>
