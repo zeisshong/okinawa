@@ -410,7 +410,11 @@ const CATS = [
 ];
 const CAT_ICONS = { '餐飲':'🍜','交通':'🚕','購物':'🛍','觀光':'🎡','其他':'📦' };
 
-function toTWD(a, c) { return c === 'JPY' ? a * JPY_TO_TWD : a; }
+function toTWD(a, c) {
+  if (c === 'JPY') return a * JPY_TO_TWD;
+  if (c === 'USD') return a * 32; // 約略匯率，可手動調整
+  return a; // TWD
+}
 
 // ── Tab ──
 function switchTab(name, btn) {
@@ -708,17 +712,40 @@ function showToast(msg, err=false) {
 }
 
 // ── Init ──
+// ── 格式正規化 ──────────────────────────────────────────
+function normalizeDate(raw) {
+  if (!raw) return '';
+  const s = String(raw);
+  // 2026.06.30 → 6/30
+  let m = s.match(/\d{4}[.\-\/](\d{1,2})[.\-\/](\d{1,2})/);
+  if (m) return `${parseInt(m[1])}/${m[2].padStart(2,'0')}`;
+  // 已經是 6/30 或 7/01 格式
+  m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
+  if (m) return `${parseInt(m[1])}/${m[2].padStart(2,'0')}`;
+  return s;
+}
+
+function normalizeCurrency(raw) {
+  if (!raw) return 'JPY';
+  const map = {
+    'jpy':'JPY','日幣':'JPY','日圓':'JPY','円':'JPY','¥':'JPY',
+    'twd':'TWD','台幣':'TWD','新台幣':'TWD','nt':'TWD','ntd':'TWD',
+    'usd':'USD','美金':'USD','美元':'USD','$':'USD',
+  };
+  return map[String(raw).trim().toLowerCase()] || map[String(raw).trim()] || String(raw).toUpperCase();
+}
+
 async function init() {
   try {
     const resp = await fetch(GAS_URL);
     const json = await resp.json();
     const data = (json.data || []).map(r => ({
-      date: r['日期'] || '',
+      date: normalizeDate(r['日期']),
       time: r['時間'] || '',
       location: r['地點'] || '',
       desc: r['說明'] || '',
       amount: parseFloat(r['金額']) || 0,
-      currency: r['幣別'] || 'JPY',
+      currency: normalizeCurrency(r['幣別']),
       category: r['類別'] || '其他',
       note: r['備註'] || '',
     })).filter(r => r.amount > 0);
