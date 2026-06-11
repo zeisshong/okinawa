@@ -6,15 +6,15 @@
 <title>沖繩記帳｜MSC 榮耀號</title>
 <style>
   :root {
-    --bg: #FAF6F2;
-    --surface: #F0EAE4;
-    --surface2: #E8DDD6;
-    --accent: #B89080;
-    --accent2: #8A6A60;
-    --text: #2A1E1A;
-    --text-muted: #7A6258;
-    --border: #D8CCC6;
-    --success: #7AADA8;
+    --bg: #F2FCFB;
+    --surface: #E8F9F8;
+    --surface2: #C8F0EE;
+    --accent: #0ABFB8;
+    --accent2: #086E6A;
+    --text: #0A3230;
+    --text-muted: #2A7A76;
+    --border: #A0E4E0;
+    --success: #0ABFB8;
     --radius: 14px;
     --font: system-ui, -apple-system, 'Helvetica Neue', sans-serif;
   }
@@ -22,15 +22,15 @@
   body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 17px; min-height: 100vh; padding-bottom: 100px; }
 
   /* Header */
-  .header { background: linear-gradient(135deg, #F0E0D6 0%, #EDD0C0 55%, #E8C8B4 100%); padding: 28px 20px 20px; text-align: center; border-bottom: 1px solid rgba(184,144,128,0.3); }
-  .header-eyebrow { font-size: 13px; color: #6A4A40; letter-spacing: 0.12em; font-weight: 500; margin-bottom: 6px; }
-  .header h1 { font-size: 24px; font-weight: 700; color: #2A1E1A; }
-  .header-sub { font-size: 14px; color: #6A4A40; margin-top: 4px; }
+  .header { background: linear-gradient(135deg, #E8F9F8 0%, #C8F0EE 50%, #A0E4E0 100%); padding: 28px 20px 20px; text-align: center; border-bottom: 1px solid rgba(184,144,128,0.3); }
+  .header-eyebrow { font-size: 13px; color: #086E6A; letter-spacing: 0.12em; font-weight: 500; margin-bottom: 6px; }
+  .header h1 { font-size: 24px; font-weight: 700; color: #0A3230; }
+  .header-sub { font-size: 14px; color: #0ABFB8; margin-top: 4px; }
 
   /* Tabs */
   .tabs { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
   .tab { flex: 1; padding: 14px 8px; text-align: center; font-size: 15px; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--font); transition: color 0.2s, border-color 0.2s; }
-  .tab.active { color: #6A4A40; border-bottom-color: #B89080; }
+  .tab.active { color: #0A3230; border-bottom-color: #0ABFB8; }
 
   .panel { display: none; padding: 20px 16px; }
   .panel.active { display: block; }
@@ -75,7 +75,7 @@
     user-select: none;
     gap: 12px;
   }
-  .day-summary:hover { background: rgba(255,252,250,0.95); }
+  .day-summary:hover { background: rgba(242,252,251,0.95); }
   .day-summary-left { display: flex; align-items: center; gap: 12px; }
   .day-badge {
     background: #E8DDD6;
@@ -136,25 +136,25 @@
     position: fixed;
     bottom: 28px; right: 22px;
     width: 60px; height: 60px;
-    background: linear-gradient(135deg, #8A6A60, #B89080);
+    background: linear-gradient(135deg, #0ABFB8, #5DD8D4);
     border-radius: 50%;
     border: none;
     color: #fff;
     font-size: 28px;
     cursor: pointer;
-    box-shadow: 0 4px 18px rgba(184,144,128,0.4), 0 0 0 2px white;
+    box-shadow: 0 4px 18px rgba(10,191,184,0.35), 0 0 0 2px white;
     display: flex; align-items: center; justify-content: center;
     z-index: 200;
     transition: transform 0.15s, box-shadow 0.15s;
   }
-  .fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(184,144,128,0.5), 0 0 0 2px white; }
+  .fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(10,191,184,0.45), 0 0 0 2px white; }
   .fab:active { transform: scale(0.95); }
 
   /* ── Modal ── */
   .modal-backdrop {
     display: none;
     position: fixed; inset: 0;
-    background: rgba(42,28,20,0.5);
+    background: rgba(4,50,48,0.45);
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     z-index: 300;
@@ -166,7 +166,7 @@
     background: rgba(255,252,250,0.88);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 0.5px solid rgba(184,144,128,0.22);
+    border: 0.5px solid rgba(10,191,184,0.2);
     border-radius: 22px 22px 0 0;
     width: 100%;
     max-width: 480px;
@@ -177,10 +177,10 @@
     color: #2A1E1A;
   }
   @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  .modal-handle { width: 40px; height: 4px; background: rgba(184,144,128,0.3); border-radius: 2px; margin: 14px auto 0; }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; border-bottom: 1px solid rgba(184,144,128,0.2); }
-  .modal-title { font-size: 17px; font-weight: 700; color: #2A1E1A; }
-  .modal-close { background: rgba(184,144,128,0.15); border: none; color: #7A6258; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font); }
+  .modal-handle { width: 40px; height: 4px; background: rgba(10,191,184,0.25); border-radius: 2px; margin: 14px auto 0; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; border-bottom: 1px solid rgba(10,191,184,0.15); }
+  .modal-title { font-size: 17px; font-weight: 700; color: #0A3230; }
+  .modal-close { background: rgba(10,191,184,0.12); border: none; color: #2A7A76; width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font); }
   .modal-body { padding: 18px 20px 0; }
 
   /* Modal steps */
@@ -189,12 +189,12 @@
 
   /* Upload inside modal */
   .upload-area {
-    border: 2px dashed rgba(184,144,128,0.4); border-radius: var(--radius);
+    border: 2px dashed rgba(10,191,184,0.35); border-radius: var(--radius);
     padding: 32px 20px; text-align: center; cursor: pointer;
     transition: border-color 0.2s, background 0.2s;
     position: relative; margin-bottom: 16px;
   }
-  .upload-area:hover { border-color: #B89080; background: rgba(184,144,128,0.06); }
+  .upload-area:hover { border-color: #0ABFB8; background: rgba(10,191,184,0.05); }
   .upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
   .upload-icon { font-size: 38px; margin-bottom: 8px; }
   .upload-text { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
@@ -204,38 +204,38 @@
   .preview-wrap img { width: 100%; border-radius: 10px; max-height: 200px; object-fit: contain; background: #000; }
   .preview-clear { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: var(--font); }
 
-  .btn-primary { width: 100%; padding: 15px; background: linear-gradient(135deg, #8A6A60, #B89080); color: #fff; border: none; border-radius: var(--radius); font-size: 17px; font-weight: 700; font-family: var(--font); cursor: pointer; transition: opacity 0.2s; margin-bottom: 10px; }
+  .btn-primary { width: 100%; padding: 15px; background: linear-gradient(135deg, #0ABFB8, #5DD8D4); color: #fff; border: none; border-radius: var(--radius); font-size: 17px; font-weight: 700; font-family: var(--font); cursor: pointer; transition: opacity 0.2s; margin-bottom: 10px; }
   .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
-  .btn-secondary { width: 100%; padding: 13px; background: transparent; color: #7A6258; border: 1px solid rgba(184,144,128,0.4); border-radius: var(--radius); font-size: 16px; font-family: var(--font); cursor: pointer; }
-  .btn-save { width: 100%; padding: 15px; background: #7AADA8; color: #fff; border: none; border-radius: var(--radius); font-size: 17px; font-weight: 700; font-family: var(--font); cursor: pointer; margin-bottom: 10px; }
+  .btn-secondary { width: 100%; padding: 13px; background: transparent; color: #2A7A76; border: 1px solid rgba(10,191,184,0.3); border-radius: var(--radius); font-size: 16px; font-family: var(--font); cursor: pointer; }
+  .btn-save { width: 100%; padding: 15px; background: #0ABFB8; color: #fff; border: none; border-radius: var(--radius); font-size: 17px; font-weight: 700; font-family: var(--font); cursor: pointer; margin-bottom: 10px; }
 
   /* Form */
   .form-group { margin-bottom: 13px; }
-  .form-label { display: block; font-size: 13px; color: #7A6258; margin-bottom: 5px; font-weight: 500; }
-  .form-input, .form-select { width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.7); border: 1px solid rgba(184,144,128,0.3); border-radius: 10px; color: #2A1E1A; font-size: 16px; font-family: var(--font); appearance: none; -webkit-appearance: none; outline: none; }
-  .form-input:focus, .form-select:focus { border-color: #B89080; }
+  .form-label { display: block; font-size: 13px; color: #2A7A76; margin-bottom: 5px; font-weight: 500; }
+  .form-input, .form-select { width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.8); border: 1px solid rgba(10,191,184,0.25); border-radius: 10px; color: #0A3230; font-size: 16px; font-family: var(--font); appearance: none; -webkit-appearance: none; outline: none; }
+  .form-input:focus, .form-select:focus { border-color: #0ABFB8; }
   .currency-row { display: flex; gap: 8px; }
   .currency-row .form-input { flex: 1; }
-  .currency-btn { padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(184,144,128,0.3); background: rgba(255,255,255,0.7); color: #7A6258; font-size: 14px; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-  .currency-btn.active { background: linear-gradient(135deg, #8A6A60, #B89080); color: #fff; border-color: #B89080; }
+  .currency-btn { padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(10,191,184,0.25); background: rgba(255,255,255,0.8); color: #2A7A76; font-size: 14px; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .currency-btn.active { background: linear-gradient(135deg, #0ABFB8, #5DD8D4); color: #fff; border-color: #0ABFB8; }
   .category-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 7px; }
-  .cat-btn { padding: 9px 4px; border-radius: 10px; border: 1px solid rgba(184,144,128,0.3); background: rgba(255,255,255,0.7); color: #7A6258; font-size: 12px; font-family: var(--font); cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: all 0.15s; }
+  .cat-btn { padding: 9px 4px; border-radius: 10px; border: 1px solid rgba(10,191,184,0.25); background: rgba(255,255,255,0.8); color: #2A7A76; font-size: 12px; font-family: var(--font); cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: all 0.15s; }
   .cat-btn .ci { font-size: 20px; }
-  .cat-btn.active { background: rgba(184,144,128,0.2); border-color: #B89080; color: #8A6A60; }
+  .cat-btn.active { background: rgba(10,191,184,0.12); border-color: #0ABFB8; color: #086E6A; }
 
   /* Loading overlay */
-  .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(250,246,242,0.92); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+  .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(232,249,248,0.92); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
   .loading-overlay.show { display: flex; }
-  .spinner { width: 50px; height: 50px; border: 4px solid rgba(184,144,128,0.3); border-top-color: #B89080; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .spinner { width: 50px; height: 50px; border: 4px solid rgba(10,191,184,0.2); border-top-color: #0ABFB8; border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { font-size: 17px; color: #6A4A40; }
+  .loading-text { font-size: 17px; color: #086E6A; }
 
   /* Toast */
-  .toast { position: fixed; bottom: 108px; left: 50%; transform: translateX(-50%) translateY(60px); background: #7AADA8; color: #fff; padding: 13px 26px; border-radius: 50px; font-size: 15px; font-weight: 600; z-index: 9999; transition: transform 0.3s ease; white-space: nowrap; }
+  .toast { position: fixed; bottom: 108px; left: 50%; transform: translateX(-50%) translateY(60px); background: #0ABFB8; color: #fff; padding: 13px 26px; border-radius: 50px; font-size: 15px; font-weight: 600; z-index: 9999; transition: transform 0.3s ease; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.error { background: #e53935; }
 
-  select option { background: rgba(255,252,250,0.95); }
+  select option { background: rgba(242,252,251,0.95); }
 </style>
 </head>
 <body>
@@ -397,7 +397,7 @@ const DAYS = [
   { val:'7/04', label:'Day 5', desc:'返家' },
 ];
 const CATS = [
-  { name:'餐飲', color:'#B89080' },
+  { name:'餐飲', color:'#0ABFB8' },
   { name:'交通', color:'#ffb347' },
   { name:'購物', color:'#4caf7d' },
   { name:'觀光', color:'#42a5f5' },
@@ -431,7 +431,7 @@ function renderStats(data) {
   const twdAmt = valid.filter(r => r.currency === 'TWD').reduce((s, r) => s + r.amount, 0);
   const maxC = Math.max(jpyAmt, twdAmt, 1);
   document.getElementById('curBars').innerHTML = [
-    { label:'日圓 JPY', val:jpyAmt, color:'#B89080', prefix:'¥' },
+    { label:'日圓 JPY', val:jpyAmt, color:'#0ABFB8', prefix:'¥' },
     { label:'台幣 TWD', val:twdAmt, color:'#42a5f5', prefix:'$' },
   ].map(b => `<div class="bar-row">
     <div class="bar-label">${b.label}</div>
