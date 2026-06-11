@@ -365,6 +365,10 @@
           </select>
         </div>
         <div class="form-group">
+          <label class="form-label">品項明細（選填）</label>
+          <input class="form-input" id="fItems" type="text" placeholder="例：餅乾×500, 冰淇淋×300">
+        </div>
+        <div class="form-group">
           <label class="form-label">備註（選填）</label>
           <input class="form-input" id="fNote" type="text" placeholder="">
         </div>
@@ -566,6 +570,7 @@ function renderRecords(data) {
       <div class="record-main">
         <div class="record-desc">${r.desc}</div>
         <div class="record-meta">${r.date} · ${r.location} · ${r.category}</div>
+        ${r.items ? `<div style="font-size:12px;color:var(--text-muted);margin-top:2px">${r.items}</div>` : ''}
       </div>
       <div style="text-align:right">
         <div class="record-amount">${symbol}${r.amount.toLocaleString()}</div>
@@ -641,7 +646,7 @@ async function analyzeReceipt() {
       headers:{ 'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true' },
       body: JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:400, messages:[{ role:'user', content:[
         { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:b64 } },
-        { type:'text', text:`解析這張收據，只回傳 JSON，不要其他文字：{"location":"店名","description":"說明（中文）","amount":數字,"currency":"JPY或TWD","category":"餐飲或交通或購物或觀光或其他"}` }
+        { type:'text', text:`解析這張收據，只回傳 JSON，不要其他文字：{"location":"店名","description":"整體說明（中文，例如：購物、午餐）","amount":數字（最終合計）,"currency":"JPY或TWD或USD","category":"餐飲或交通或購物或觀光或其他","items":"品項明細（例如：餅乾×500, 冰淇淋×300，若無法辨識則留空字串）"}` }
       ]}]})
     });
     const data = await resp.json();
@@ -659,6 +664,7 @@ function fillForm(d) {
   document.getElementById('fLocation').value = d.location || '';
   document.getElementById('fDescription').value = d.description || '';
   document.getElementById('fAmount').value = d.amount || '';
+  document.getElementById('fItems').value = d.items || '';
   setCurrency(d.currency === 'TWD' ? 'TWD' : 'JPY');
   const cat = ['餐飲','交通','購物','觀光','其他'].includes(d.category) ? d.category : '餐飲';
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
@@ -686,6 +692,7 @@ async function saveRecord() {
     location: document.getElementById('fLocation').value.trim(),
     description: document.getElementById('fDescription').value.trim(),
     amount, currency: currentCurrency, category: currentCategory,
+    items: document.getElementById('fItems').value.trim(),
     note: document.getElementById('fNote').value.trim()
   };
   document.getElementById('btnSave').disabled = true;
@@ -702,7 +709,7 @@ async function saveRecord() {
 
 function resetForm() {
   clearFile();
-  ['fLocation','fDescription','fAmount','fNote'].forEach(id => document.getElementById(id).value = '');
+  ['fLocation','fDescription','fAmount','fItems','fNote'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('fDate').selectedIndex = 0;
   setCurrency('JPY');
   document.querySelectorAll('.cat-btn').forEach((b,i) => b.classList.toggle('active', i===0));
@@ -759,6 +766,7 @@ async function init() {
       amount: parseFloat(r['金額']) || 0,
       currency: normalizeCurrency(r['幣別']),
       category: r['類別'] || '其他',
+      items: r['品項明細'] || '',
       note: r['備註'] || '',
     })).filter(r => r.amount > 0);
     renderStats(data);
