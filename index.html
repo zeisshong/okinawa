@@ -37,7 +37,7 @@
 
   /* ── HERO ── */
   .hero {
-    background: linear-gradient(160deg, #6A4A40 0%, #B89080 55%, #C9A898 100%);
+    background: linear-gradient(160deg, #F0E0D6 0%, #EDD0C0 55%, #E8C8B4 100%);
     color: white;
     padding: 40px 20px 32px;
     position: relative;
@@ -54,21 +54,21 @@
   .hero-wave {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    opacity: 0.08;
-    background: repeating-linear-gradient(-45deg, transparent, transparent 20px, white 20px, white 21px);
+    opacity: 0.15;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(106,74,64,0.15) 20px, rgba(106,74,64,0.15) 21px);
   }
   .hero-content { position: relative; max-width: 500px; margin: 0 auto; }
   .hero-eyebrow {
     font-size: 14px; font-weight: 500; letter-spacing: 0.1em;
-    opacity: 0.75; margin-bottom: 8px; text-transform: uppercase;
+    opacity: 0.85; margin-bottom: 8px; text-transform: uppercase; color: #6A4A40;
   }
   .hero h1 {
-    font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 16px;
+    font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 16px; color: #2A1E1A;
   }
   .hero-meta { display: flex; gap: 12px; flex-wrap: wrap; }
   .hero-meta span {
-    font-size: 15px; background: rgba(255,255,255,0.15);
-    padding: 5px 14px; border-radius: 20px; backdrop-filter: blur(4px);
+    font-size: 15px; background: rgba(106,74,64,0.12);
+    padding: 5px 14px; border-radius: 20px; color: #4A2E22;
   }
 
   /* ── DAY NAV TABS ── */
@@ -101,8 +101,8 @@
     line-height: 1.4;
   }
   .day-tab.active {
-    color: white;
-    background: var(--ocean);
+    color: #2A1E1A;
+    background: var(--ocean-light);
     border-color: var(--ocean);
   }
   .day-tab:hover:not(.active) {
@@ -114,32 +114,32 @@
 
   /* ── DAY SUMMARY CARD ── */
   .day-summary {
-    background: linear-gradient(135deg, #6A4A40 0%, #B89080 100%);
+    background: linear-gradient(135deg, #EDD0C0 0%, #E8C8B4 100%);
     color: white;
     border-radius: var(--radius);
     padding: 18px 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 16px rgba(106,74,64,0.22);
+    box-shadow: 0 4px 16px rgba(106,74,64,0.12);
   }
   .day-summary-title {
     font-size: 20px; font-weight: 700; margin-bottom: 14px;
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 8px; color: #2A1E1A;
   }
   .day-summary-times {
     display: flex; flex-direction: column; gap: 8px;
   }
   .summary-time-row {
     display: flex; align-items: center; gap: 10px;
-    background: rgba(255,255,255,0.12);
+    background: rgba(106,74,64,0.1);
     border-radius: 8px; padding: 8px 14px;
   }
   .summary-time-icon { font-size: 20px; flex-shrink: 0; }
-  .summary-time-label { font-size: 14px; opacity: 0.85; }
-  .summary-time-value { font-size: 22px; font-weight: 700; letter-spacing: 0.03em; }
+  .summary-time-label { font-size: 14px; opacity: 0.85; color: #4A2E22; }
+  .summary-time-value { font-size: 22px; font-weight: 700; letter-spacing: 0.03em; color: #2A1E1A; }
   .day-summary-note {
     margin-top: 12px;
-    font-size: 15px; opacity: 0.9;
-    background: rgba(255,255,255,0.1);
+    font-size: 15px; color: #4A2E22;
+    background: rgba(106,74,64,0.08);
     border-radius: 8px; padding: 8px 14px;
     line-height: 1.6;
   }
@@ -499,32 +499,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --sand: #1E1612;
-      --ink: #F0EAE6;
-      --mid: #B8A098;
-      --rule: #3A2E28;
-      --done-bg: #2A221E;
-      --done-text: #7A6860;
-      --active-bg: #2E2410;
-      --ocean-light: #2E2420;
-    }
-    .event-card { background: #261E1A; color: #F0EAE6; }
-    .event.done .event-card { background: #1E1814; }
-    .notes-block { background: #261E1A; color: #B8A098; }
-    .facility-item { background: #261E1A; }
-    .dining-card { background: #261E1A; }
-    .check-item { background: #261E1A; color: #F0EAE6; }
-    .check-item:hover { background: #2E2420; }
-    .bus-modal, .emergency-modal { background: rgba(255,252,250,0.9); color: #2A1E1A; border-color: rgba(184,144,128,0.25); }
-    .bus-modal-header { background: rgba(255,252,250,0.92); color: #2A1E1A; border-bottom-color: rgba(184,144,128,0.2); }
-    .bus-table td { color: #F0EAE6; border-bottom-color: #3A2E28; }
-    .fab-item { background: transparent; color: #2A1E1A; }
-    .fab-item:hover { background: rgba(184,144,128,0.1); }
-    .fab-menu { background: rgba(255,252,250,0.9); border-color: rgba(184,144,128,0.25); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
-  }
 </style>
 </head>
 <body>
