@@ -580,7 +580,7 @@ function renderStats(data) {
       // Tax refund summary
       const taxRows = rows.filter(r => r.currency === 'JPY' && r.amount >= 5000);
       const taxHint = taxRows.length > 0
-        ? `<div style="margin-top:10px;padding:8px 12px 8px 14px;background:rgba(255,255,255,0.85);border-radius:8px;font-size:0.875rem;color:#065A54;border-left:3px solid #0ABFB8;font-weight:500"> 今日有 <strong>${taxRows.length}</strong> 筆可申請退稅</div>`
+        ? `<div style="margin-top:10px;padding:8px 14px;background:rgba(255,183,77,0.28);border-radius:8px;font-size:0.875rem;color:#6A3E00;border:0.5px solid rgba(240,160,0,0.4);font-weight:500;display:inline-block"> 今日有 <strong>${taxRows.length}</strong> 筆可申請退稅</div>`
         : '';
 
       detail.innerHTML = miniBars + recRows + taxHint;
