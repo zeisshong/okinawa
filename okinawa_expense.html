@@ -112,10 +112,10 @@
 
   /* Mini category bars inside day detail */
   .mini-cat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .mini-cat-label { font-size: 0.875rem; color: var(--text-muted); width: 52px; flex-shrink: 0; }
+  .mini-cat-label { font-size: 0.875rem; color: var(--text-muted); min-width: 4rem; flex-shrink: 0; white-space: nowrap; }
   .mini-bar-track { flex: 1; background: var(--border); border-radius: 4px; height: 8px; }
   .mini-bar-fill { height: 100%; border-radius: 4px; }
-  .mini-cat-amt { font-size: 0.875rem; color: var(--text-muted); width: 72px; text-align: right; flex-shrink: 0; }
+  .mini-cat-amt { font-size: 0.875rem; color: var(--text-muted); min-width: 5rem; text-align: right; flex-shrink: 0; white-space: nowrap; }
 
   /* Record rows inside expanded */
   .detail-record { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--border); }
