@@ -286,6 +286,11 @@
     <div class="bar-chart" id="curBars"></div>
   </div>
 
+  <div class="card" id="highlightCard" style="display:none">
+    <div class="card-title">旅遊亮點</div>
+    <div id="highlightContent"></div>
+  </div>
+
   <!-- 每日統計 accordion -->
   <div class="section-label">每日統計</div>
   <div id="dayAccordions"></div>
@@ -339,18 +344,23 @@
         <div class="form-group">
           <label class="form-label">金額</label>
           <div class="currency-row">
-            <input class="form-input" id="fAmount" type="number" placeholder="0" inputmode="decimal">
+            <input class="form-input" id="fAmount" type="number" placeholder="0" inputmode="decimal" oninput="checkTaxRefund(this.value)">
             <button class="currency-btn active" id="btnJPY" onclick="setCurrency('JPY')">¥ JPY</button>
             <button class="currency-btn" id="btnTWD" onclick="setCurrency('TWD')">$ TWD</button>
+          </div>
+          <div id="taxHint" style="display:none;margin-top:6px;padding:7px 12px;background:rgba(255,183,77,0.15);border-radius:8px;font-size:13px;color:#8a5c00">
+            🧾 單筆超過 ¥5,000，記得向店家申請退稅！
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">類別</label>
-          <div class="category-grid">
+          <div class="category-grid" style="grid-template-columns:repeat(4,1fr)">
             <button class="cat-btn active" data-cat="餐飲" onclick="setCategory(this)"><span class="ci">🍜</span>餐飲</button>
             <button class="cat-btn" data-cat="交通" onclick="setCategory(this)"><span class="ci">🚕</span>交通</button>
             <button class="cat-btn" data-cat="購物" onclick="setCategory(this)"><span class="ci">🛍</span>購物</button>
             <button class="cat-btn" data-cat="觀光" onclick="setCategory(this)"><span class="ci">🎡</span>觀光</button>
+            <button class="cat-btn" data-cat="藥妝" onclick="setCategory(this)"><span class="ci">💊</span>藥妝</button>
+            <button class="cat-btn" data-cat="甜點" onclick="setCategory(this)"><span class="ci">🍰</span>甜點</button>
             <button class="cat-btn" data-cat="其他" onclick="setCategory(this)"><span class="ci">📦</span>其他</button>
           </div>
         </div>
@@ -411,14 +421,61 @@ const CATS = [
   { name:'交通', color:'#ffb347' },
   { name:'購物', color:'#4caf7d' },
   { name:'觀光', color:'#42a5f5' },
+  { name:'藥妝', color:'#f06292' },
+  { name:'甜點', color:'#ff8a65' },
   { name:'其他', color:'#ab47bc' },
 ];
-const CAT_ICONS = { '餐飲':'🍜','交通':'🚕','購物':'🛍','觀光':'🎡','其他':'📦' };
+const CAT_ICONS = { '餐飲':'🍜','交通':'🚕','購物':'🛍','觀光':'🎡','藥妝':'💊','甜點':'🍰','其他':'📦' };
 
 function toTWD(a, c) {
   if (c === 'JPY') return a * JPY_TO_TWD;
   if (c === 'USD') return a * USD_TO_TWD;
   return a;
+}
+
+// ── Tax refund hint ──
+function checkTaxRefund(val) {
+  const hint = document.getElementById('taxHint');
+  if (hint) hint.style.display = (currentCurrency === 'JPY' && parseFloat(val) >= 5000) ? 'block' : 'none';
+}
+
+// ── Highlights ──
+function renderHighlights(data) {
+  const valid = data.filter(r => r.amount > 0);
+  if (!valid.length) return;
+  const maxRec = valid.reduce((a, b) => toTWD(b.amount, b.currency) > toTWD(a.amount, a.currency) ? b : a);
+  const maxTWD = Math.round(toTWD(maxRec.amount, maxRec.currency));
+  const dayTotals = DAYS.map(d => ({
+    label: d.val + '（' + d.desc + '）',
+    total: valid.filter(r => r.date === d.val).reduce((s, r) => s + toTWD(r.amount, r.currency), 0)
+  }));
+  const maxDay = dayTotals.reduce((a, b) => b.total > a.total ? b : a);
+  const symMap = { JPY:'¥', TWD:'NT$', USD:'US$' };
+  const sym = symMap[maxRec.currency] || maxRec.currency;
+  document.getElementById('highlightCard').style.display = 'block';
+  document.getElementById('highlightContent').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:2px">最大一筆</div>
+          <div style="font-size:15px;font-weight:600">${maxRec.desc || maxRec.location}</div>
+          <div style="font-size:12px;color:var(--text-muted)">${maxRec.location}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:17px;font-weight:700;color:#086E6A">${sym}${maxRec.amount.toLocaleString()}</div>
+          <div style="font-size:12px;color:var(--text-muted)">≈ NT$${maxTWD.toLocaleString()}</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
+        <div>
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:2px">最花錢的一天</div>
+          <div style="font-size:15px;font-weight:600">${maxDay.label}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:17px;font-weight:700;color:#086E6A">NT$${Math.round(maxDay.total).toLocaleString()}</div>
+        </div>
+      </div>
+    </div>`;
 }
 
 // ── Tab ──
@@ -439,6 +496,7 @@ function renderStats(data) {
   // Donut
   const catTotals = CATS.map(c => valid.filter(r => r.category === c.name).reduce((s, r) => s + toTWD(r.amount, r.currency), 0));
   renderDonut(catTotals, totalTWD > 0 ? totalTWD : 1);
+  renderHighlights(valid);
 
   // Currency bars
   const jpyAmt = valid.filter(r => r.currency === 'JPY').reduce((s, r) => s + r.amount, 0);
@@ -576,6 +634,7 @@ function renderRecords(data) {
         <div class="record-amount">${symbol}${r.amount.toLocaleString()}</div>
         <div class="record-twd" style="color:var(--text-muted);font-size:12px">${r.currency}</div>
         ${showTWD ? `<div class="record-twd">≈ NT$${twd.toLocaleString()}</div>` : ''}
+        ${r.currency === 'JPY' && r.amount >= 5000 ? `<div style="font-size:11px;color:#8a5c00;background:rgba(255,183,77,0.15);border-radius:6px;padding:2px 7px;margin-top:3px;display:inline-block">🧾 可退稅</div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -646,7 +705,7 @@ async function analyzeReceipt() {
       headers:{ 'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true' },
       body: JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:400, messages:[{ role:'user', content:[
         { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:b64 } },
-        { type:'text', text:`解析這張收據，只回傳 JSON，不要其他文字：{"location":"店名","description":"整體說明（中文，例如：購物、午餐）","amount":數字（最終合計）,"currency":"JPY或TWD或USD","category":"餐飲或交通或購物或觀光或其他","items":"品項明細（例如：餅乾×500, 冰淇淋×300，若無法辨識則留空字串）"}` }
+        { type:'text', text:`解析這張收據，只回傳 JSON，不要其他文字：{"location":"店名（原文）","description":"整體說明（中文，例如：購物、午餐）","amount":數字（最終合計，取含稅後金額）,"currency":"JPY或TWD或USD","category":"根據店家性質判斷：餐廳/食堂/便利商店內用→餐飲；松本清/ドラッグストア/藥局→藥妝；甜點店/冰淇淋/蛋糕→甜點；一般購物/超市/百貨→購物；計程車/電車/巴士→交通；水族館/觀光景點/門票→觀光；其他→其他","items":"品項明細，每個品項格式為 品名×金額，用逗號分隔，忽略條碼數字行，若無法辨識則留空字串"}` }
       ]}]})
     });
     const data = await resp.json();
@@ -666,7 +725,7 @@ function fillForm(d) {
   document.getElementById('fAmount').value = d.amount || '';
   document.getElementById('fItems').value = d.items || '';
   setCurrency(d.currency === 'TWD' ? 'TWD' : 'JPY');
-  const cat = ['餐飲','交通','購物','觀光','其他'].includes(d.category) ? d.category : '餐飲';
+  const cat = ['餐飲','交通','購物','觀光','藥妝','甜點','其他'].includes(d.category) ? d.category : '餐飲';
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
   currentCategory = cat;
   goStep(2);
@@ -731,13 +790,16 @@ function showToast(msg, err=false) {
 function normalizeDate(raw) {
   if (!raw) return '';
   const s = String(raw).trim();
-  // 2026.06.30 or 2026-06-30 or 2026/06/30
-  let m = s.match(/(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})/);
+  // 令和: R07.06.30 or 令和7年06月30日
+  let m = s.match(/[Rr令和]\s*(\d{1,2})[年.\-\/](\d{1,2})[月.\-\/](\d{1,2})/);
+  if (m) return `${parseInt(m[2])}/${m[3].padStart(2,'0')}`;
+  // 西元 2026.06.30 / 2026-06-30 / 2026/06/30
+  m = s.match(/(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})/);
   if (m) return `${parseInt(m[2])}/${m[3].padStart(2,'0')}`;
   // 已是 6/30 或 7/01
   m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
   if (m) return `${parseInt(m[1])}/${m[2].padStart(2,'0')}`;
-  // ISO date string from GAS (e.g. 2026-06-30T00:00:00.000Z)
+  // ISO from GAS
   m = s.match(/^(\d{4})-(\d{2})-(\d{2})T/);
   if (m) return `${parseInt(m[2])}/${m[3]}`;
   return s;
