@@ -400,7 +400,7 @@
 
 <script>
 // ── Config ──
-const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+// 收據辨識改走 GAS 代理，Anthropic API key 存在 GAS 的 Script Properties，前端不再出現 key。
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxVMgn9fB0BYPC-9FWh_PS_iQX08GRsKYeH0eRp49-KhGIjqOhSmRgCV5eRT-5aEe57tg/exec';
 const JPY_TO_TWD = 0.2;  // ¥1 ≈ NT$0.2
 const USD_TO_TWD = 32;   // $1 ≈ NT$32
@@ -698,25 +698,19 @@ function resizeImage(file, maxSize = 800) {
 
 async function analyzeReceipt() {
   if (!currentFile) return;
-  if (ANTHROPIC_API_KEY === 'YOUR_API_KEY_HERE') {
-    showToast('請先填入 API Key，顯示空白表單', true);
-    fillForm({ location:'', description:'', amount:'', currency:'JPY', category:'餐飲' });
-    return;
-  }
   showLoading('解析收據中，請稍候…');
   try {
     const b64 = await resizeImage(currentFile);
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    // 改走 GAS 代理：圖片送到 GAS，GAS 用存在 Script Properties 的 key 呼叫 Claude，
+    // 前端完全不會接觸到 API key。用 text/plain 避免觸發 CORS 預檢請求。
+    const resp = await fetch(GAS_URL, {
       method:'POST',
-      headers:{ 'Content-Type':'application/json','x-api-key':ANTHROPIC_API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true' },
-      body: JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:400, messages:[{ role:'user', content:[
-        { type:'image', source:{ type:'base64', media_type:'image/jpeg', data:b64 } },
-        { type:'text', text:`解析這張收據，只回傳 JSON，不要其他文字：{"location":"店名（原文）","description":"整體說明（中文，例如：購物、午餐）","amount":數字（最終合計，取含稅後金額）,"currency":"JPY或TWD或USD","category":"根據店家性質判斷：餐廳/食堂/便利商店內用→餐飲；松本清/ドラッグストア/藥局→藥妝；甜點店/冰淇淋/蛋糕→甜點；一般購物/超市/百貨→購物；計程車/電車/巴士→交通；水族館/觀光景點/門票→觀光；其他→其他","items":"品項明細，每個品項格式為 品名×金額，用逗號分隔，忽略條碼數字行，若無法辨識則留空字串"}` }
-      ]}]})
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action:'parseReceipt', image:b64 })
     });
     const data = await resp.json();
-    const parsed = JSON.parse(data.content?.[0]?.text?.replace(/```json|```/g,'').trim() || '{}');
-    fillForm(parsed);
+    if (data.status !== 'ok') throw new Error(data.message || '解析失敗');
+    fillForm(data.result);
   } catch(e) {
     hideLoading(); showToast('解析失敗，請手動輸入', true);
     fillForm({ location:'', description:'', amount:'', currency:'JPY', category:'餐飲' });
